@@ -92,6 +92,7 @@ jobs:
     build-owner:
         name: Build owner server container
         runs-on: ubuntu-latest
+        needs: build-server
         steps:
         - uses: actions/checkout@v3
         - name: build image using buildah
