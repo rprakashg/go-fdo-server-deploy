@@ -1,0 +1,58 @@
+---
+name: CI
+on:
+    workflow_dispatch:
+env:
+    IMAGE_TAGS: ${{ github.sha }}
+    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+    REGISTRY_USER: ${{ github.actor }}
+    REGISTRY_PASSWORD: ${{ github.token }}
+jobs:
+    build-manufacturing:
+        name: Build manufacturing server container
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: build image using buildah
+          uses: redhat-actions/buildah-build@v2
+          with:
+            image: go-fdo-server-manufacturing
+            tags: ${{ env.IMAGE_TAGS }}
+            build-args: |
+                PORT=8038
+                DB_NAME="/data/mfg.db"
+                DB_PASS="${{ secrets.DB_PASS }}"
+            containerfiles: |
+                Containerfile
+    build-rendezvous:
+        name: Build rendezvous server container
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: build image using buildah
+          uses: redhat-actions/buildah-build@v2
+          with:
+            image: go-fdo-server-manufacturing
+            tags: ${{ env.IMAGE_TAGS }}
+            build-args: |
+                PORT=8041
+                DB_NAME="/data/rv.db"
+                DB_PASS="${{ secrets.DB_PASS }}"
+            containerfiles: |
+                Containerfile
+    build-owner:
+        name: Build owner server container
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: build image using buildah
+          uses: redhat-actions/buildah-build@v2
+          with:
+            image: go-fdo-server-manufacturing
+            tags: ${{ env.IMAGE_TAGS }}
+            build-args: |
+                PORT=8043
+                DB_NAME="/data/owner.db"
+                DB_PASS="${{ secrets.DB_PASS }}"
+            containerfiles: |
+                Containerfile  
