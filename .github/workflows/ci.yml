@@ -74,6 +74,7 @@ jobs:
             image: go-fdo-server-rendezvous
             tags: ${{ env.IMAGE_TAGS }}
             build-args: |
+                BUILDER_DIGEST=${{ needs.build-server.outputs.digest }}
                 PORT=8041
                 DB_NAME="/data/rv.db"
                 DB_PASS="${{ secrets.DB_PASS }}"
@@ -101,6 +102,7 @@ jobs:
             image: go-fdo-server-owner
             tags: ${{ env.IMAGE_TAGS }}
             build-args: |
+                BUILDER_DIGEST=${{ needs.build-server.outputs.digest }}
                 PORT=8043
                 DB_NAME="/data/owner.db"
                 DB_PASS="${{ secrets.DB_PASS }}"
