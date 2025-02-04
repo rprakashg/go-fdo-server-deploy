@@ -1,0 +1,7 @@
+[Unit]
+Description=FDO Owner Server
+
+[Container]
+Label=app=fdo-server,role=Owner
+Image="{{ owner_server_container }}"
+Volume=fdo-db.volume:/data:z

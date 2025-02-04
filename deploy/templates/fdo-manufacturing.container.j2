@@ -1,0 +1,7 @@
+[Unit]
+Description=FDO Manufacturing Server
+
+[Container]
+Label=app=fdo-server,role=Manufacturing
+Image="{{ manufacturing_server_image }}"
+Volume=fdo-db.volume:/data:z

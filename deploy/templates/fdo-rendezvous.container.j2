@@ -1,0 +1,7 @@
+[Unit]
+Description=FDO Rendezvous Server
+
+[Container]
+Label=app=fdo-server,role=Rendezvous
+Image="{{ rendezvous_server_container }}"
+Volume=fdo-db.volume:/data:z
