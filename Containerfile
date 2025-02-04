@@ -1,4 +1,5 @@
 #Define Args
+ARG BUILDER_DIGEST
 ARG PORT=8038
 ARG DB_NAME="mfg.db"
 ARG DB_PASS=""
@@ -6,18 +7,7 @@ ARG DB_PASS=""
 # Define a volume mountpoint for db file
 VOLUME [/data]
 
-FROM golang:1.23 AS builder
-
-RUN mkdir /app & \
-    git clone https://github.com/fido-device-onboard/go-fdo-server.git /app
-
-WORKDIR /app
-
-RUN go mod download 
-
-RUN ./update-deps.sh
-
-RUN CGO_ENABLED=0 go build -o fdo_server ./cmd/fdo_server/
+FROM ghcr.io/rprakashg/go-fdo-server-builder@$BUILDER_DIGEST as builder
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal
 
